@@ -30,6 +30,16 @@ class Request(models.Model):
     request_time = models.DateTimeField(auto_now_add=True)
     done_time = models.DateTimeField(null=True)
 
+    def __unicode__(self):
+        result = u""
+        for item in self.items.all():
+            if result:
+                result = u"%s and" % result
+            result = u"%s %s" % (result, item)
+        if not result:
+            return u"empty request for %s" % self.location
+        return u"%s for %s" % (result, self.location)
+
 
 class ItemRequest(models.Model):
     request = models.ForeignKey(Request, related_name="items")
