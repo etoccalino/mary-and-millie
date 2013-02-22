@@ -29,7 +29,7 @@ class Request(models.Model):
     bin = models.ForeignKey(Bin, null=True)
 
     request_time = models.DateTimeField(auto_now_add=True)
-    done_time = models.DateTimeField()
+    done_time = models.DateTimeField(null=True)
 
 
 class ItemRequest(models.Model):
