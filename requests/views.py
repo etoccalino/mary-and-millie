@@ -1,6 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import models
 import forms
+
+
+def requests(http_request):
+    requests = models.Request.objects.all()
+    return render(http_request, "requests.html", {'requests': requests})
+
+
+def request(http_request, request_pk):
+    request = get_object_or_404(models.Request, pk=request_pk)
+    return render(http_request, "request.html", {'request': request})
 
 
 def new_request(http_request):

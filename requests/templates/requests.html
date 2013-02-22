@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table>
+    {% for request in requests %}
+    <tr><td><a href="{% url request request.pk %}">{{ request }}</a></td></tr>
+    {% endfor %}
+    </table>
+{% endblock %}
