@@ -1,5 +1,7 @@
 # Django settings for mnm project.
 
+from local_settings import PROJECT_ROOT
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -153,3 +155,5 @@ LOGGING = {
         },
     }
 }
+
+from local_settings import *
