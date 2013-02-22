@@ -24,7 +24,6 @@ class Bin(models.Model):
 
 class Request(models.Model):
     location = models.ForeignKey(Location)
-    items = models.ManyToManyField(Item, through='ItemRequest')
 
     bin = models.ForeignKey(Bin, null=True)
 
@@ -33,7 +32,7 @@ class Request(models.Model):
 
 
 class ItemRequest(models.Model):
-    request = models.ForeignKey(Request)
+    request = models.ForeignKey(Request, related_name="items")
     item = models.ForeignKey(Item)
     quantity = models.PositiveIntegerField()
 
