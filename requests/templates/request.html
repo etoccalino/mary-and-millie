@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ request }}</h2>
+    <table>
+      <tr><td><bold>Where</bold>: {{ request.location }}</tr></td>
+      <tr>
+        <td><bold>What:</bold></td>
+        <td>
+          <table>
+          {% if request.items %}
+          {% for item_request in request.items.all %}
+          <tr><td>{{ item_request }}</tr></td>
+          {% endfor %}
+          {% else %}
+          <tr><td>...no items.</td></tr>
+          {% endif %}
+          </table>
+         </td>
+      </tr>
+      {% if request.bin %}
+      <tr><td>In bin: {{ request.bin }}</tr></td>
+      {% endif %}
+    </table>
+{% endblock %}
