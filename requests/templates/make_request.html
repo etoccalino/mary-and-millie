@@ -3,8 +3,7 @@
 {% block content %}
     <form method="post">{% csrf_token %}
       <table>
-          {{ form.as_p }}
-          <hr />
+          {{ form.as_table }}
           {{ items_formset.as_table }}
       </table>
       <hr />
