@@ -18,8 +18,13 @@
           </table>
          </td>
       </tr>
-      {% if request.bin %}
-      <tr><td>In bin: {{ request.bin }}</tr></td>
-      {% endif %}
     </table>
+    {% if not request.bin %}
+    <form method="POST">{% csrf_token %}
+      {{ form }}
+      <input type="submit" value="Send!" />
+    </form>
+    {% else %}
+    <p>In bin: {{ request.bin }}</p>
+    {% endif %}
 {% endblock %}

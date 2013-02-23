@@ -12,4 +12,10 @@ class RequestForm(forms.ModelForm):
 
     class Meta:
         model = models.Request
-        exclude = ('status', 'request_time', 'done_time', 'bin', 'items')
+        fields = ('location',)
+
+
+class AssociateRequestForm(forms.Form):
+    bin = forms.ModelChoiceField(
+        queryset=models.Bin.objects.filter(requested=False),
+        empty_label="(select a bin)")

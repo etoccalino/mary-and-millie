@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.utils.timezone import now
 import models
 import forms
 
@@ -10,7 +11,21 @@ def requests(http_request):
 
 def request(http_request, request_pk):
     request = get_object_or_404(models.Request, pk=request_pk)
-    return render(http_request, "request.html", {'request': request})
+    form = forms.AssociateRequestForm(initial={'bin': request.bin})
+
+    if http_request.method == "POST":
+        form = forms.AssociateRequestForm(http_request.POST)
+        if form.is_valid():
+            bin = form.cleaned_data['bin']
+            request.bin = bin
+            request.status = models.Request.PENDING_STATUS
+            request.pending_time = now()
+            request.save()
+            bin.requested = True
+            bin.save()
+
+    return render(http_request, "request.html",
+                  {'request': request, 'form': form})
 
 
 def new_request(http_request):
