@@ -2,29 +2,32 @@
 
 {% block content %}
     <h2>{{ request }}</h2>
-    <table>
-      <tr><td><bold>Where</bold>: {{ request.location }}</tr></td>
+
+    <p><strong>Where:</strong> {{ request.location }}</p>
+
+    <p><strong>What:</strong></p>
+    {% if request.items %}
+    <table class="table table-condensed">
+      {% for item_request in request.items.all %}
       <tr>
-        <td><bold>What:</bold></td>
-        <td>
-          <table>
-          {% if request.items %}
-          {% for item_request in request.items.all %}
-          <tr><td>{{ item_request }}</tr></td>
-          {% endfor %}
-          {% else %}
-          <tr><td>...no items.</td></tr>
-          {% endif %}
-          </table>
-         </td>
+        <td>{{ item_request.quantity }}</td>
+        <td>{{ item_request.item }}</td>
       </tr>
+      {% endfor %}
+      {% else %}
+      <tr><td>...no items.</td></tr>
+      {% endif %}
     </table>
+    <hr />
     {% if not request.bin %}
-    <form method="POST">{% csrf_token %}
-      {{ form }}
-      <input type="submit" value="Send!" />
+    {% load crispy_forms_tags %}
+    <form class="form form-horizontal">
+      {% crispy form %}
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary btn-large" value="Send!" />
+      </div>
     </form>
     {% else %}
-    <p>In bin: {{ request.bin }}</p>
+    <p><strong>Delivering in bin:</strong> {{ request.bin }}</p>
     {% endif %}
 {% endblock %}

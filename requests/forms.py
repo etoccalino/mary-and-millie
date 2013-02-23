@@ -40,3 +40,8 @@ class AssociateRequestForm(django.forms.Form):
     bin = django.forms.ModelChoiceField(
         queryset=models.Bin.objects.filter(requested=False),
         empty_label="(select a bin)")
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        super(AssociateRequestForm, self).__init__(*args, **kwargs)
