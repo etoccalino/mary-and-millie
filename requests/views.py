@@ -5,8 +5,14 @@ import forms
 
 
 def requests(http_request):
-    requests = models.Request.objects.all()
-    return render(http_request, "requests.html", {'requests': requests})
+    requests = {
+        'new': models.Request.objects.filter(status=models.Request.NEW_STATUS),
+        'done': models.Request.objects.filter(
+            status=models.Request.DONE_STATUS),
+        'pending': models.Request.objects.filter(
+            status=models.Request.PENDING_STATUS)
+        }
+    return render(http_request, "requests.html", requests)
 
 
 def request(http_request, request_pk):

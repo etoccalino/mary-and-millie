@@ -5,6 +5,7 @@ from local_settings import PROJECT_ROOT
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+CRISPY_FAIL_SILENTLY = not DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -125,6 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'crispy_forms',
     'requests',
 )
 

@@ -1,9 +1,61 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <table>
-    {% for request in requests %}
-    <tr><td><a href="{% url request request.pk %}">{{ request }}</a></td></tr>
+    <ul class="nav nav-tabs">
+      <li id="new-requests-tab" class="active"><a href="#">New</a></li>
+      <li id="pending-requests-tab"><a href="#">Pending</a></li>
+      <li id="done-requests-tab"><a href="#">Done</a></li>
+    </ul>
+
+    <table id="new-requests" class="table table-striped shown">
+    {% for request in new %}
+    <tr>
+      <td>(who?)</td>
+      <td><a href="{% url request request.pk %}">{{ request }}</a></td>
+    </tr>
     {% endfor %}
     </table>
+
+    <table id="pending-requests" class="table table-striped" style="display: none;">
+    {% for request in pending %}
+    <tr>
+      <td>(who?)</td>
+      <td><a href="{% url request request.pk %}">{{ request }}</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+
+    <table id="done-requests" class="table table-striped" style="display: none;">
+    {% for request in done %}
+    <tr>
+      <td>(who?)</td>
+      <td><a href="{% url request request.pk %}">{{ request }}</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+      $(document).ready(function () {
+        // Keep the tabs in sync.
+        var sync_tabs = function (tab_id, table_id) {
+          var $tab   = $('#'+tab_id)
+            , $table = $('#'+table_id);
+          $tab.on('click', function () {
+            $('table.shown').fadeOut(function () {
+              $(this).removeClass('shown');
+              $('ul.nav-tabs li').removeClass('active');
+              $tab.addClass('active');
+              $table.fadeIn(function () {
+                $(this).addClass('shown')
+              });
+            });
+          });
+        };
+        sync_tabs('new-requests-tab', 'new-requests');
+        sync_tabs('pending-requests-tab', 'pending-requests');
+        sync_tabs('done-requests-tab', 'done-requests');
+      });
+    </script>
 {% endblock %}
