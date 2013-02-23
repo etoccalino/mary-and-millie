@@ -12,7 +12,6 @@ def requests(http_request):
         'pending': models.Request.objects.filter(
             status=models.Request.PENDING_STATUS)
         }
-
     return render(http_request, "requests.html", requests)
 
 
