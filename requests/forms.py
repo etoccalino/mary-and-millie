@@ -3,9 +3,11 @@ from django import forms
 import models
 
 
-MAX_ITEMS = 3
+EXTRA_ITEMS = 3
+MAX_ITEMS = 5
 ItemRequestFormSet = inlineformset_factory(models.Request, models.ItemRequest,
-                                           can_delete=False, extra=MAX_ITEMS)
+                                           can_delete=False, extra=EXTRA_ITEMS,
+                                           max_num=MAX_ITEMS)
 
 
 class RequestForm(forms.ModelForm):
