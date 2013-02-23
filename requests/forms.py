@@ -16,8 +16,10 @@ class ItemRequestForm(django.forms.ModelForm):
         fields = ('item', 'quantity')
 
 
-MAX_ITEMS = 3
-ItemRequestFormSet = formset_factory(ItemRequestForm, extra=MAX_ITEMS)
+MAX_ITEMS = 5
+EXTRA_ITEMS = 3
+ItemRequestFormSet = formset_factory(ItemRequestForm, extra=EXTRA_ITEMS,
+                                     max_num=MAX_ITEMS)
 
 
 class RequestForm(django.forms.ModelForm):
