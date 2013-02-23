@@ -1,12 +1,10 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="post">{% csrf_token %}
-      <table>
-          {{ form.as_table }}
-          {{ items_formset.as_table }}
-      </table>
-      <hr />
-      <input type="submit" value="Send" />
+    <form method="post" class="form-horizontal">
+      {% crispy form %}
+      {% crispy items_formset items_formset.form.helper %}
+      <input type="submit" class="btn" value="Send" />
     </form>
 {% endblock %}
