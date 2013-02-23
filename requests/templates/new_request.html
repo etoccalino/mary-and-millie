@@ -5,6 +5,8 @@
     <form method="post" class="form-horizontal">
       {% crispy form %}
       {% crispy items_formset items_formset.form.helper %}
-      <input type="submit" class="btn" value="Send" />
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary btn-large" value="Send" />
+      </div>
     </form>
 {% endblock %}
