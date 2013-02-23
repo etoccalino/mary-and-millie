@@ -48,5 +48,5 @@ def new_request(http_request):
             form = forms.RequestForm()
             items_formset = forms.ItemRequestFormSet()
 
-    return render(http_request, "make_request.html",
+    return render(http_request, "new_request.html",
                   {'form': form, 'items_formset': items_formset})
