@@ -21,7 +21,7 @@
     <hr />
     {% if not request.bin %}
     {% load crispy_forms_tags %}
-    <form class="form form-horizontal">
+    <form method="post" class="form form-horizontal">
       {% crispy form %}
       <div class="form-actions">
         <input type="submit" class="btn btn-primary btn-large" value="Send!" />
