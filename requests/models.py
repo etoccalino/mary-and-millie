@@ -23,10 +23,20 @@ class Bin(models.Model):
 
 
 class Request(models.Model):
+    NEW_STATUS = 'new'
+    PENDING_STATUS = 'pend'
+    DONE_STATUS = 'done'
+    ERROR_STATUS = 'err'
+    STATUS = (
+        (NEW_STATUS, 'New'),
+        (PENDING_STATUS, 'Pending'),
+        (DONE_STATUS, 'Done'),
+        (ERROR_STATUS, 'Error'),
+        )
+    status = models.CharField(max_length=4, choices=STATUS, default=NEW_STATUS)
+
     location = models.ForeignKey(Location)
-
     bin = models.ForeignKey(Bin, null=True)
-
     request_time = models.DateTimeField(auto_now_add=True)
     done_time = models.DateTimeField(null=True)
 

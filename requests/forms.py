@@ -12,4 +12,4 @@ class RequestForm(forms.ModelForm):
 
     class Meta:
         model = models.Request
-        exclude = ('request_time', 'done_time', 'bin', 'items')
+        exclude = ('status', 'request_time', 'done_time', 'bin', 'items')
