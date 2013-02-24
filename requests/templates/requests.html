@@ -11,7 +11,7 @@
     {% for request in new %}
     <tr>
       <td>(who?)</td>
-      <td><a href="{% url request request.pk %}">{{ request }}</a></td>
+      <td><a href="{{ request.get_absolute_url }}">{{ request }}</a></td>
     </tr>
     {% endfor %}
     </table>
@@ -20,7 +20,7 @@
     {% for request in pending %}
     <tr>
       <td>(who?)</td>
-      <td><a href="{% url request request.pk %}">{{ request }}</a></td>
+      <td><a href="{{ request.get_absolute_url }}">{{ request }}</a></td>
     </tr>
     {% endfor %}
     </table>
@@ -29,7 +29,7 @@
     {% for request in done %}
     <tr>
       <td>(who?)</td>
-      <td><a href="{% url request request.pk %}">{{ request }}</a></td>
+      <td><a href="{{ request.get_absolute_url }}">{{ request }}</a></td>
     </tr>
     {% endfor %}
     </table>

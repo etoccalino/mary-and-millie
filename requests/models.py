@@ -72,6 +72,10 @@ class Request(models.Model):
             return u"empty request for %s" % self.location
         return u"%s for %s" % (result, self.location)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('request', (), {'request_pk': str(self.pk)})
+
 
 class ItemRequest(models.Model):
     request = models.ForeignKey(Request, related_name="items")
