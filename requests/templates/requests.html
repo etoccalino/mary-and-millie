@@ -36,6 +36,8 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{{ STATIC_URL }}libs/sockeio-client/socket.io.min.js"></script>
+    <script src="{{ STATIC_URL }}js/requests.js"></script>
     <script type="text/javascript">
       $(document).ready(function () {
         // Keep the tabs in sync.

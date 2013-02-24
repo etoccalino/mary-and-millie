@@ -1,7 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils.timezone import now
+from socketio import socketio_manage
+import namespace
 import models
 import forms
+
+
+def socketio(http_request):
+    return socketio_manage(http_request.environ,
+                           {'/requests': namespace.Requests},
+                           http_request)
 
 
 def requests(http_request):
