@@ -16,7 +16,11 @@ var Requests = {
   createRequestRow: function (requestData) {
     console.log('createRequestRow() called. with requestData: ' + requestData);
     var obj = JSON.parse(requestData)
-      , row = '<tr><td>' + '(who)' + '</td><td>' + obj.description + '</td></tr>';
+      , row = '';
+
+    row += '<tr><td>' + '(who?)' + '</td>';
+    row += '<td><a href="' + obj.meta.url + '">' + obj.meta.description + '</a></td></tr>';
+
     console.log('new row text is: ' + row);
     return $(row)
   },
