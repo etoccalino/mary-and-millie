@@ -6,11 +6,12 @@ import forms
 
 def requests(http_request):
     requests = {
-        'new': models.Request.objects.filter(status=models.Request.NEW_STATUS),
+        'new': models.Request.objects.filter(
+            status=models.Request.NEW_STATUS).order_by('-request_time'),
         'done': models.Request.objects.filter(
-            status=models.Request.DONE_STATUS),
+            status=models.Request.DONE_STATUS).order_by('-done_time'),
         'pending': models.Request.objects.filter(
-            status=models.Request.PENDING_STATUS)
+            status=models.Request.PENDING_STATUS).order_by('-pending_time'),
         }
     return render(http_request, "requests.html", requests)
 
