@@ -31,6 +31,11 @@ var Requests = {
 // Bind the events desired.
 Requests.socket.on('connect', function () {
 
+  console.log('connected to the "/requests" namespace.')
+
+  // Complete a 3-way handshake to force the initialization of the namespace.
+  Requests.socket.emit('new client');
+
   Requests.socket.on('new request', function (requestData) {
     var row = Requests.createRequestRow(requestData);
     Requests.insertRequestRow(row, Requests.tables.NEW);
