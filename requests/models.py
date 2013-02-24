@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder
 import json
 
 
@@ -8,7 +9,7 @@ class Item(models.Model):
     def serialize(self, shape='json'):
         obj = self.name
         if shape == 'json':
-            obj = json.dumps(obj)
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
         return obj
 
     def __unicode__(self):
@@ -21,7 +22,7 @@ class Location(models.Model):
     def serialize(self, shape='json'):
         obj = self.name
         if shape == 'json':
-            obj = json.dumps(obj)
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
         return obj
 
     def __unicode__(self):
@@ -54,7 +55,7 @@ class Bin(models.Model):
             'requested': self.requested,
             }
         if shape == 'json':
-            obj = json.dumps(obj)
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
         return obj
 
     def __unicode__(self):
@@ -92,7 +93,7 @@ class Request(models.Model):
                 },
             'status': self.get_status_display(),
             'location': self.location.serialize(shape='dict'),
-            'request_time': self.request_time.isoformat(),
+            'request_time': self.request_time,
             }
         items = []
         for item_request in self.items.all():
@@ -102,12 +103,12 @@ class Request(models.Model):
         if self.bin:
             obj['bin'] = self.bin.serialize(shape='dict')
         if self.pending_time:
-            obj['pending_time'] = self.pending_time.isoformat()
+            obj['pending_time'] = self.pending_time
         if self.done_time:
-            obj['done_time'] = self.done_time.isoformat()
+            obj['done_time'] = self.done_time
 
         if shape == 'json':
-            obj = json.dumps(obj)
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
         return obj
 
     def __unicode__(self):
@@ -136,7 +137,7 @@ class ItemRequest(models.Model):
             'quantity': self.quantity,
             }
         if shape == 'json':
-            obj = json.dumps(obj)
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
         return obj
 
     def __unicode__(self):
