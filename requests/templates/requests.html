@@ -12,6 +12,7 @@
     <tr>
       <td><div>(who?)</div></td>
       <td><div><a href="{{ request.get_absolute_url }}">{{ request }}</a></div></td>
+      <td><div><time class="timeago" datetime="{{ request.request_time.isoformat }}"></time></div></td>
     </tr>
     {% endfor %}
     </table>
@@ -19,8 +20,9 @@
     <table id="pending-requests" class="table table-striped" style="display: none;">
     {% for request in pending %}
     <tr>
-      <td>(who?)</td>
-      <td><a href="{{ request.get_absolute_url }}">{{ request }}</a></td>
+      <td><div>(who?)</div></td>
+      <td><div><a href="{{ request.get_absolute_url }}">{{ request }}</a></div></td>
+      <td><div><time class="timeago" datetime="{{ request.request_time.isoformat }}"></time></div></td>
     </tr>
     {% endfor %}
     </table>
@@ -28,18 +30,23 @@
     <table id="done-requests" class="table table-striped" style="display: none;">
     {% for request in done %}
     <tr>
-      <td>(who?)</td>
-      <td><a href="{{ request.get_absolute_url }}">{{ request }}</a></td>
+      <td><div>(who?)</div></td>
+      <td><div><a href="{{ request.get_absolute_url }}">{{ request }}</a></div></td>
+      <td><div><time class="timeago" datetime="{{ request.request_time.isoformat }}"></time></div></td>
     </tr>
     {% endfor %}
     </table>
 {% endblock %}
 
 {% block scripts %}
+    <script src="{{ STATIC_URL }}libs/timeago/jquery.timeago.js"></script>
     <script src="{{ STATIC_URL }}libs/sockeio-client/socket.io.min.js"></script>
     <script src="{{ STATIC_URL }}js/requests.js"></script>
     <script type="text/javascript">
       $(document).ready(function () {
+        // Turn times into human-meaningful strings.
+        $('time.timeago').timeago();
+
         // Keep the tabs in sync.
         var sync_tabs = function (tab_id, table_id) {
           var $tab   = $('#'+tab_id)

@@ -19,7 +19,8 @@ var Requests = {
       , row = '';
 
     row += '<tr><td><div>' + '(who?)' + '</div></td>';
-    row += '<td><div><a href="' + obj.meta.url + '">' + obj.meta.description + '</a></div></td></tr>';
+    row += '<td><div><a href="' + obj.meta.url + '">' + obj.meta.description + '</a></div></td>';
+    row += '<td><div><time class="timeago" datetime="' + obj.request_time + '"></time></div></td></tr>';
 
     console.log('new row text is: ' + row);
     return $(row)
@@ -30,6 +31,7 @@ var Requests = {
     console.log('inserting before "' + requestTableID + ' tr:first".');
     var contents = $('div', requestRow);
     contents.css('display', 'none');
+    $('.timeago', contents).timeago();
     $(requestTableID + ' tr:first').before(requestRow);
     contents.fadeIn('slow');
   },
