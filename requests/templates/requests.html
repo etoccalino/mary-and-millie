@@ -10,8 +10,8 @@
     <table id="new-requests" class="table table-striped shown">
     {% for request in new %}
     <tr>
-      <td>(who?)</td>
-      <td><a href="{{ request.get_absolute_url }}">{{ request }}</a></td>
+      <td><div>(who?)</div></td>
+      <td><div><a href="{{ request.get_absolute_url }}">{{ request }}</a></div></td>
     </tr>
     {% endfor %}
     </table>

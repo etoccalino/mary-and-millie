@@ -18,8 +18,8 @@ var Requests = {
     var obj = JSON.parse(requestData)
       , row = '';
 
-    row += '<tr><td>' + '(who?)' + '</td>';
-    row += '<td><a href="' + obj.meta.url + '">' + obj.meta.description + '</a></td></tr>';
+    row += '<tr><td><div>' + '(who?)' + '</div></td>';
+    row += '<td><div><a href="' + obj.meta.url + '">' + obj.meta.description + '</a></div></td></tr>';
 
     console.log('new row text is: ' + row);
     return $(row)
@@ -28,10 +28,10 @@ var Requests = {
   // Insert a request row (a jQuery object) into a particular request table (identified by ID).
   insertRequestRow: function (requestRow, requestTableID) {
     console.log('inserting before "' + requestTableID + ' tr:first".');
-    var tds = $('td', requestRow);
-    tds.css('display', 'none');
-    $(requestTableID + ' tr:first').before(requestRow).delay(500);
-    tds.show('slow', 'linear');
+    var contents = $('div', requestRow);
+    contents.css('display', 'none');
+    $(requestTableID + ' tr:first').before(requestRow);
+    contents.fadeIn('slow');
   },
 
   // --- Socket to handle requests events ---
