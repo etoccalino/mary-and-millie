@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 
@@ -84,6 +85,25 @@ class Request(models.Model):
     pending_time = models.DateTimeField(null=True)
     # Date and time this request was "done" (delived, finished).
     done_time = models.DateTimeField(null=True)
+
+    def pending(self, bin=None):
+        self.status = self.PENDING_STATUS
+        if bin:
+            self.bin = bin
+            bin.requested = True
+            bin.save()
+        self.pending_time = now()
+        self.save()
+
+    def done(self):
+        self.status = self.DONE_STATUS
+        if self.bin:
+            bin = self.bin
+            bin.requested = False
+            bin.save()
+            self.bin = None
+        self.done_time = now()
+        self.save()
 
     def serialize(self, shape='json'):
         obj = {

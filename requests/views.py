@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.utils.timezone import now
+from random import randrange
 from socketio import socketio_manage
+import gevent
 import namespace
 import queue
 import models
@@ -8,6 +9,20 @@ import forms
 
 import logging
 logger = logging.getLogger('app.views')
+
+
+###############################################################################
+
+CONSUMER_TIME_LOWER = 5  # seconds.
+CONSUMER_TIME_UPPER = 10  # seconds.
+
+
+def consumer(request, consumer_time=CONSUMER_TIME_LOWER):
+    """Takes a request to have it "done"."""
+    gevent.sleep(consumer_time)
+    request.done()
+
+###############################################################################
 
 
 def socketio(http_request):
@@ -36,12 +51,20 @@ def request(http_request, request_pk):
         form = forms.AssociateRequestForm(http_request.POST)
         if form.is_valid():
             bin = form.cleaned_data['bin']
-            request.bin = bin
-            request.status = models.Request.PENDING_STATUS
-            request.pending_time = now()
-            request.save()
+            # Update the request and bin.
+            request.pending(bin)
             bin.requested = True
             bin.save()
+
+            # Launch the request consumer.
+            consumer_time = randrange(CONSUMER_TIME_LOWER,
+                                      CONSUMER_TIME_UPPER, 1)
+            logger.debug("request consumer launched (it'll take %s seconds)."
+                         % consumer_time)
+            gevent.spawn(consumer, request, consumer_time=consumer_time)
+
+            # Return to the requests list.
+            return requests(http_request)
 
     return render(http_request, "request.html",
                   {'request': request, 'form': form})
