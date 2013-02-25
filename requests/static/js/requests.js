@@ -28,7 +28,10 @@ var Requests = {
   // Insert a request row (a jQuery object) into a particular request table (identified by ID).
   insertRequestRow: function (requestRow, requestTableID) {
     console.log('inserting before "' + requestTableID + ' tr:first".');
-    $(requestTableID + ' tr:first').before(requestRow);
+    var tds = $('td', requestRow);
+    tds.css('display', 'none');
+    $(requestTableID + ' tr:first').before(requestRow).delay(500);
+    tds.show('slow', 'linear');
   },
 
   // --- Socket to handle requests events ---
