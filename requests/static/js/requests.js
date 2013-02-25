@@ -33,7 +33,7 @@ var Requests = {
     contents.css('display', 'none');
     $('.timeago', contents).timeago();
     $(requestTableID + ' tr:first').before(requestRow);
-    contents.fadeIn('slow');
+    contents.fadeIn('fast');
   },
 
   // --- Socket to handle requests events ---

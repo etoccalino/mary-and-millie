@@ -53,11 +53,11 @@
           var $tab   = $('#'+tab_id)
             , $table = $('#'+table_id);
           $tab.on('click', function () {
-            $('table.shown').fadeOut(function () {
+            $('table.shown').fadeOut('fast', function () {
               $(this).removeClass('shown');
               $('ul.nav-tabs li').removeClass('active');
               $tab.addClass('active');
-              $table.fadeIn(function () {
+              $table.fadeIn('fast', function () {
                 $(this).addClass('shown')
               });
             });
