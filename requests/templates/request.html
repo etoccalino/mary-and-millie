@@ -20,7 +20,11 @@
       {% endif %}
     </table>
     <hr />
-    {% if not request.bin %}
+
+    {% with status=request.get_status_display %}
+    {% if status == "Pending" %}
+    <p><strong>Delivering in bin:</strong> {{ request.bin }}</p>
+    {% elif status == "New" %}
     {% load crispy_forms_tags %}
     <form method="post" class="form form-horizontal">
       {% crispy form %}
@@ -28,7 +32,6 @@
         <input type="submit" class="btn btn-primary btn-large" value="Send!" />
       </div>
     </form>
-    {% else %}
-    <p><strong>Delivering in bin:</strong> {{ request.bin }}</p>
     {% endif %}
+    {% endwith %}
 {% endblock %}
