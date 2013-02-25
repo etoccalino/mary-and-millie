@@ -1,8 +1,16 @@
 from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
+
+    def serialize(self, shape='json'):
+        obj = self.name
+        if shape == 'json':
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
+        return obj
 
     def __unicode__(self):
         return self.name
@@ -10,6 +18,12 @@ class Item(models.Model):
 
 class Location(models.Model):
     name = models.CharField(max_length=100)
+
+    def serialize(self, shape='json'):
+        obj = self.name
+        if shape == 'json':
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
+        return obj
 
     def __unicode__(self):
         return self.name
@@ -34,6 +48,15 @@ class Bin(models.Model):
             raise RuntimeError("More than one Request instance associated to "
                                "the same bin (bin %s)." % self.number)
         return request
+
+    def serialize(self, shape='json'):
+        obj = {
+            'number': self.number,
+            'requested': self.requested,
+            }
+        if shape == 'json':
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
+        return obj
 
     def __unicode__(self):
         return "bin %s" % self.number
@@ -62,6 +85,32 @@ class Request(models.Model):
     # Date and time this request was "done" (delived, finished).
     done_time = models.DateTimeField(null=True)
 
+    def serialize(self, shape='json'):
+        obj = {
+            'meta': {
+                'description': unicode(self),
+                'url': self.get_absolute_url(),
+                },
+            'status': self.get_status_display(),
+            'location': self.location.serialize(shape='dict'),
+            'request_time': self.request_time,
+            }
+        items = []
+        for item_request in self.items.all():
+            items.append(item_request.serialize(shape='dict'))
+        obj['items'] = items
+
+        if self.bin:
+            obj['bin'] = self.bin.serialize(shape='dict')
+        if self.pending_time:
+            obj['pending_time'] = self.pending_time
+        if self.done_time:
+            obj['done_time'] = self.done_time
+
+        if shape == 'json':
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
+        return obj
+
     def __unicode__(self):
         result = u""
         for item in self.items.all():
@@ -72,11 +121,24 @@ class Request(models.Model):
             return u"empty request for %s" % self.location
         return u"%s for %s" % (result, self.location)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('request', (), {'request_pk': str(self.pk)})
+
 
 class ItemRequest(models.Model):
     request = models.ForeignKey(Request, related_name="items")
     item = models.ForeignKey(Item)
     quantity = models.PositiveIntegerField()
+
+    def serialize(self, shape='json'):
+        obj = {
+            'item': self.item.name,
+            'quantity': self.quantity,
+            }
+        if shape == 'json':
+            obj = json.dumps(obj, cls=DjangoJSONEncoder)
+        return obj
 
     def __unicode__(self):
         return "%s %s" % (self.quantity, self.item)
